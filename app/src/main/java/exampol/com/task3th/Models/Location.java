@@ -2,11 +2,20 @@ package exampol.com.task3th.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Property;
+
+@Entity (nameInDb = "Location")
 public class Location{
 
+	@Id(autoincrement = true)
+	Long id;
+	@Property
 	@SerializedName("latitude")
 	private double latitude;
 
+	@Property
 	@SerializedName("longitude")
 	private double longitude;
 

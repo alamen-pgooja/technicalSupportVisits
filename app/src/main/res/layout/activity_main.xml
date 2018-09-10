@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".Views.MainActivity"
     android:background="#a33fa493">
-
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:id="@+id/mSwipeRefreshLayout">
     <RelativeLayout
         android:layout_margin="10dp"
         android:layout_width="match_parent"
@@ -30,5 +34,5 @@
             android:layout_height="match_parent"
             android:layout_below="@id/tet" />
     </RelativeLayout>
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>
