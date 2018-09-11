@@ -1,50 +1,133 @@
 package exampol.com.task3th.Models;
 
-import java.util.List;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Relation;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Visit{
+@Entity(tableName = "VISITS")
+public class Visit {
 
-	@SerializedName("SITEVISITLIST")
-	private List<SITEVISITLISTItem> sITEVISITLIST;
+    @NonNull
+    @PrimaryKey
+    @SerializedName("Id")
+    private int id;
 
-	@SerializedName("ERROR")
-	private String eRROR;
+	@SerializedName("ContactNo")
+	private String contactNo;
 
-	@SerializedName("RESULT")
-	private String rESULT;
+	@SerializedName("MerchantName")
+	private String merchantName;
 
-	public void setSITEVISITLIST(List<SITEVISITLISTItem> sITEVISITLIST){
-		this.sITEVISITLIST = sITEVISITLIST;
+	@SerializedName("visitTitle")
+	private String visitTitle;
+
+	@SerializedName("visitDescription")
+	private String visitDescription;
+
+	@SerializedName("TicketNo")
+	private String ticketNo;
+
+
+    @SerializedName("MerchantID")
+	private String merchantID;
+
+	@SerializedName("VisitDate")
+	private String visitDate;
+
+
+	@Ignore
+    @SerializedName("Location")
+	private Location location;
+
+	public void setContactNo(String contactNo){
+		this.contactNo = contactNo;
 	}
 
-	public List<SITEVISITLISTItem> getSITEVISITLIST(){
-		return sITEVISITLIST;
+	public String getContactNo(){
+		return contactNo;
 	}
 
-	public void setERROR(String eRROR){
-		this.eRROR = eRROR;
+	public void setMerchantName(String merchantName){
+		this.merchantName = merchantName;
 	}
 
-	public String getERROR(){
-		return eRROR;
+	public String getMerchantName(){
+		return merchantName;
 	}
 
-	public void setRESULT(String rESULT){
-		this.rESULT = rESULT;
+	public void setVisitTitle(String visitTitle){
+		this.visitTitle = visitTitle;
 	}
 
-	public String getRESULT(){
-		return rESULT;
+	public String getVisitTitle(){
+		return visitTitle;
+	}
+
+	public void setVisitDescription(String visitDescription){
+		this.visitDescription = visitDescription;
+	}
+
+	public String getVisitDescription(){
+		return visitDescription;
+	}
+
+	public void setTicketNo(String ticketNo){
+		this.ticketNo = ticketNo;
+	}
+
+	public String getTicketNo(){
+		return ticketNo;
+	}
+
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
+	public void setMerchantID(String merchantID){
+		this.merchantID = merchantID;
+	}
+
+	public String getMerchantID(){
+		return merchantID;
+	}
+
+	public void setVisitDate(String visitDate){
+		this.visitDate = visitDate;
+	}
+
+	public String getVisitDate(){
+		return visitDate;
+	}
+
+	public void setLocation(Location location){
+		this.location = location;
+	}
+
+	public Location getLocation(){
+		return location;
 	}
 
 	@Override
- 	public String toString(){
-		return 
-			"Visit{" + 
-			"sITEVISITLIST = '" + sITEVISITLIST + '\'' + 
-			",eRROR = '" + eRROR + '\'' + 
-			",rESULT = '" + rESULT + '\'' + 
-			"}";
-		}
+	public String toString() {
+		return
+				"Visit{" +
+						"contactNo = '" + contactNo + '\'' +
+						",merchantName = '" + merchantName + '\'' +
+						",visitTitle = '" + visitTitle + '\'' +
+						",visitDescription = '" + visitDescription + '\'' +
+						",ticketNo = '" + ticketNo + '\'' +
+						",id = '" + id + '\'' +
+						",merchantID = '" + merchantID + '\'' +
+						",visitDate = '" + visitDate + '\'' +
+						",location = '" + location + '\'' +
+						"}";
+	}
 }

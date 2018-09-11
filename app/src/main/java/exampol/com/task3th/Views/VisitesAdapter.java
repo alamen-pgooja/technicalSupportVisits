@@ -8,21 +8,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 
-import exampol.com.task3th.Models.SITEVISITLISTItem;
+import exampol.com.task3th.Models.Visit;
 import exampol.com.task3th.R;
 
 public class VisitesAdapter extends RecyclerView.Adapter<VisitesAdapter.myViewHolder> {
 
-    List<SITEVISITLISTItem> sitevisitlistItems;
+    List<Visit> sitevisitlistItems;
     Context context;
     final String TAG="VisitesAdapter";
 
-    public VisitesAdapter(List<SITEVISITLISTItem> sitevisitlistItems, Context context) {
+    public VisitesAdapter(List<Visit> sitevisitlistItems, Context context) {
         this.sitevisitlistItems = sitevisitlistItems;
         this.context = context;
     }
