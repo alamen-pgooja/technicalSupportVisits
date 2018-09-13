@@ -46,8 +46,12 @@ public class VisitesAdapter extends RecyclerView.Adapter<VisitesAdapter.myViewHo
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context,MapsActivity.class);
-                intent.putExtra("longitude",sitevisitlistItems.get(position).getLocation().getLongitude());
-                intent.putExtra("latitude",sitevisitlistItems.get(position).getLocation().getLatitude());
+                try {
+                    intent.putExtra("longitude", sitevisitlistItems.get(position).getLocation().getLongitude());
+                    intent.putExtra("latitude", sitevisitlistItems.get(position).getLocation().getLatitude());
+                }catch (Exception e){
+                    Log.v(TAG,e.getMessage());
+                }
                 context.startActivity(intent);
             }
         });

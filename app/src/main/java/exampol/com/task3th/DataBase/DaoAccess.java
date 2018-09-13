@@ -26,6 +26,9 @@ public interface DaoAccess {
     @Query("SELECT * FROM VISITS")
     List<Visit> fetchAllVisits();
 
+    @Query("DELETE From VISITS")
+    void deleteAll();
+
     @Update
     void updateMovie(Visit visit);
 

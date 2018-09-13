@@ -22,6 +22,15 @@
         android:textSize="20dp"
         android:text="Oops..look like something gos wron :("
         android:id="@+id/filerText"/>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/filerText">
+
+
     <Button
         android:layout_marginTop="9dp"
         android:layout_width="100dp"
@@ -30,7 +39,20 @@
         android:layout_centerHorizontal="true"
         android:textColor="#000"
         android:text="OK"
-
+        android:layout_margin="5dp"
         android:id="@+id/filerButton"
         android:background="@drawable/shape"/>
+
+    <!--<Button-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:id="@+id/loadButton"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/filerText"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="9dp"-->
+        <!--android:background="@drawable/shape"-->
+        <!--android:text="OK"-->
+        <!--android:textColor="#000" />-->
+    </LinearLayout>
 </RelativeLayout>

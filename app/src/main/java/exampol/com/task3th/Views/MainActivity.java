@@ -3,6 +3,7 @@ package exampol.com.task3th.Views;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +13,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import exampol.com.task3th.DataBase.VisitDatabase;
 import exampol.com.task3th.Models.ServerResponse;
 import exampol.com.task3th.Models.Visit;
+import exampol.com.task3th.MyTask;
 import exampol.com.task3th.NetWorkApis.ApiClient;
 import exampol.com.task3th.NetWorkApis.NetWorkApi;
 import exampol.com.task3th.R;
@@ -32,15 +36,21 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     SwipeRefreshLayout mSwipeRefreshLayout;
     private VisitDatabase visitDatabase;
     private String dataBaseName = "mVisit";
+    MyTask getTask;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.visitesRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         mSwipeRefreshLayout = findViewById(R.id.mSwipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        textView=findViewById(R.id.mod);
         ini_db();
         getAllVisits(1);
+        getTask=new MyTask(this,dataBaseName,visitDatabase);
     }
 //
 
@@ -60,12 +70,26 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 Log.v(TAG, response.body().toString());
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-                recyclerView.setAdapter(new VisitesAdapter(response.body().getSITEVISITLIST(), MainActivity.this));
+
+                textView.setText(" OnLine mod".toUpperCase());
                 mSwipeRefreshLayout.setRefreshing(false);
-                insert(response.body().getSITEVISITLIST());
-                getDataById(2);
-                getAll();
+                recyclerView.setAdapter(new VisitesAdapter(response.body().getSITEVISITLIST(), MainActivity.this));
+                getTask.setOperationType(MyTask.operationList[0]);
+                if (getTask.getStatus()!= AsyncTask.Status.FINISHED){
+                    getTask.execute();
+                }
+                try {
+                    if (getTask.get().size()==response.body().getSITEVISITLIST().size()){
+                        Toast.makeText(MainActivity.this, "no new visits to load", Toast.LENGTH_SHORT).show();
+                    }else {
+                        insert(response.body().getSITEVISITLIST());
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @SuppressLint("SetTextI18n")
@@ -79,21 +103,40 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 Button filerButton;
                 filerButton = mDialog.findViewById(R.id.filerButton);
                 filerText = mDialog.findViewById(R.id.filerText);
-                filerText.setText(filerText.getText().toString() + "\n" + t.getMessage());
+                filerText.setText(filerText.getText().toString() + "\n" + t.getMessage()+"\n"
+                );
                 filerButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mDialog.dismiss();
                     }
                 });
-                /*
-                 * https://github.com/greenrobot/greenDAO/issues/369
-                 *
-                 * */
+                loadVisitsFromDb();
                 mDialog.show();
             }
         });
         mSwipeRefreshLayout.setRefreshing(false);
+
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void loadVisitsFromDb() {
+        textView.setText("OffLine mod".toUpperCase());
+        getTask.setOperationType(MyTask.operationList[0]);
+
+        if (getTask.getStatus()!= AsyncTask.Status.FINISHED){
+            getTask.execute();
+        }
+        try {
+
+            recyclerView.setAdapter(new VisitesAdapter(getTask.get(),MainActivity.this));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void insert(final List<Visit> sitevisitlist) {
